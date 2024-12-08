@@ -1,5 +1,9 @@
 .account-table {
   border-collapse: collapse;
+  height: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
   
   & .account-table-row {
     user-select: none;
@@ -10,5 +14,10 @@
 
   & .account-table-row-cell {
     padding: 5px;
+  }
+
+  tfoot tr {
+    position: sticky;
+    background: red
   }
 }

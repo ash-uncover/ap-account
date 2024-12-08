@@ -1,14 +1,11 @@
 {
-  "name": "@uncover/accounts",
+  "name": "@uncover/account",
   "version": "0.0.1",
-  "type": "module",
   "scripts": {
-    "extract": "node ./src/extract.js",
     "build:docs": "webpack --config webpack.config.docs.js  --mode production",
     "dev": "webpack serve --config webpack.config.dev.js --progress --mode development --host 0.0.0.0"
   },
   "dependencies": {
-    "pdfjs-dist": "^4.9.155",
     "@types/react": "^18.3.14",
     "@types/react-dom": "^19.0.1",
     "@uncover/js-utils": "0.0.16",

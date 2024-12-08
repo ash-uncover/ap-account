@@ -3,7 +3,10 @@ import { AccountLine, DATA } from '../../data/data'
 
 import './AccountTable.css'
 
-export const AccountTable = () => {
+export const AccountTable = ({
+  data
+}) => {
+  data.unshift()
   return (
     <table className='account-table'>
       <thead>
@@ -16,7 +19,7 @@ export const AccountTable = () => {
         </tr>
       </thead>
       <tbody>
-        {DATA.map((data, index) => {
+        {data.map((data, index) => {
           return (
             <AccountTableRow
               key={`data-${index}`}
@@ -28,7 +31,7 @@ export const AccountTable = () => {
       <tfoot>
         <tr>
           <AccountTableRowCell colSpan={4} value='Total' />
-          <AccountTableRowCell value={DATA.reduce((acc, data) => acc + data.value, 0)} />
+          <AccountTableRowCell value={data.reduce((acc, data) => acc + data.value, 0)} />
         </tr>
       </tfoot>
     </table>
