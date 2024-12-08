@@ -1,6 +1,7 @@
 {
   "name": "@uncover/accounts",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "extract": "node ./src/extract.js",
     "build:docs": "webpack --config webpack.config.docs.js  --mode production",

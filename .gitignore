@@ -11,3 +11,4 @@ config.json
 test/__coverage__
 *.flac
 data/
+files/
