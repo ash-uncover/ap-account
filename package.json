@@ -1,11 +1,45 @@
 {
   "name": "@uncover/accounts",
   "version": "0.0.1",
-  "type": "module",
   "scripts": {
-    "extract": "node ./src/extract.js"
+    "extract": "node ./src/extract.js",
+    "build:docs": "webpack --config webpack.config.docs.js  --mode production",
+    "dev": "webpack serve --config webpack.config.dev.js --progress --mode development --host 0.0.0.0"
   },
   "dependencies": {
-    "pdfjs-dist": "^4.9.155"
+    "pdfjs-dist": "^4.9.155",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^19.0.1",
+    "@uncover/js-utils": "0.0.16",
+    "@uncover/js-utils-fetch": "0.0.6",
+    "@uncover/js-utils-logger": "0.2.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-redux": "9.1.2",
+    "react-router": "^7.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "7.26.0",
+    "@babel/preset-env": "7.26.0",
+    "@babel/preset-react": "7.25.9",
+    "@reduxjs/toolkit": "2.3.0",
+    "babel-loader": "9.2.1",
+    "copy-webpack-plugin": "12.0.2",
+    "css-loader": "7.1.2",
+    "html-webpack-plugin": "5.6.3",
+    "style-loader": "4.0.0",
+    "ts-loader": "9.5.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.7.2",
+    "webpack": "5.96.1",
+    "webpack-cli": "5.1.4",
+    "webpack-dev-server": "5.1.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app",
+    "env": {
+      "node": true,
+      "jest": true
+    }
   }
 }

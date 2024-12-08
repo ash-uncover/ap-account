@@ -1,0 +1,14 @@
+.account-table {
+  border-collapse: collapse;
+  
+  & .account-table-row {
+    user-select: none;
+    &.account-table-row--hover {
+      background: #EEE;
+    }
+  }
+
+  & .account-table-row-cell {
+    padding: 5px;
+  }
+}

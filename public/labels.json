@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Charges",
+    "labels": [
+      "Energie",
+      "Eau",
+      "Impots"
+    ]
+  },
+  {
+    "name": "Achat",
+    "labels": []
+  },
+  {
+    "name": "Loisirs",
+    "labels": []
+  }
+]
