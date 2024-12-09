@@ -12,3 +12,4 @@ test/__coverage__
 *.flac
 public/data.csv
 public/data2.csv
+public/*.json

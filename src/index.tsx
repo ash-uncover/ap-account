@@ -11,7 +11,7 @@ import {
 } from 'react-router'
 
 // Should be imported before first access to the reducers
-// import { store } from './store'
+import { store } from './store'
 
 // Import components
 import { CONFIG } from './config'
@@ -26,5 +26,7 @@ const containerRoot = document.getElementById('reactroot')!
 const root = createRoot(containerRoot)
 
 root.render(
-  <App />
+  <Provider store={store}>
+    <App />
+  </Provider>
 )

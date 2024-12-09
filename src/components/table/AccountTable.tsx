@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import { AccountLine, DATA } from '../../data/data'
+import { useSelector } from 'react-redux'
+import DataSelectors from '../../store/data/data.selectors'
+import { AccountData } from '../../store/data/data.state'
 
 import './AccountTable.css'
 
-export const AccountTable = ({
-  data
-}) => {
-  data.unshift()
+export const AccountTable = () => {
+  // #region Hooks
+  const data = useSelector(DataSelectors.data)
+  // #endregion
+
+  // #region Rendering
   return (
     <table className='account-table'>
       <thead>
@@ -19,11 +23,11 @@ export const AccountTable = ({
         </tr>
       </thead>
       <tbody>
-        {data.map((data, index) => {
+        {data.map((line, index) => {
           return (
             <AccountTableRow
               key={`data-${index}`}
-              data={data}
+              data={line}
             />
           )
         })}
@@ -31,15 +35,16 @@ export const AccountTable = ({
       <tfoot>
         <tr>
           <AccountTableRowCell colSpan={4} value='Total' />
-          <AccountTableRowCell value={data.reduce((acc, data) => acc + data.value, 0)} />
+          <AccountTableRowCell value={data.reduce((acc, line) => acc + parseFloat(line.value), 0)} />
         </tr>
       </tfoot>
     </table>
   )
+  // #endregion
 }
 
 interface AccountTableRowProperties {
-  data: AccountLine
+  data: AccountData
 }
 const AccountTableRow = ({
   data
@@ -74,10 +79,10 @@ const AccountTableRow = ({
       onMouseLeave={handleMouseLeave}
     >
       <AccountTableRowCell value={data.account} />
-      <AccountTableRowCell value={data.date.toLocaleDateString('fr-FR')} />
+      <AccountTableRowCell value={new Date(data.date).toLocaleDateString('fr-FR')} />
       <AccountTableRowCell value={data.label1} />
       <AccountTableRowCell value={data.label2} />
-      <AccountTableRowCell value={data.value} />
+      <AccountTableRowCell value={parseFloat(data.value)} />
     </tr>
   )
   // #endregion
