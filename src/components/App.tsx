@@ -6,6 +6,7 @@ import AppSlice from '../store/app/app.slice'
 import DataSelectors from '../store/data/data.selectors'
 import { loadData, loadLabels, loadRules } from '../service/DataService'
 import { enrichData } from '../utils/RuleMatcher'
+import { AccountFilters } from './filters/AccountFilters'
 // CSS
 import './App.css'
 
@@ -76,6 +77,7 @@ export const App = () => {
         <div className='app'>
           <header></header>
           <main>
+            <AccountFilters />
             <AccountTable />
           </main>
         </div>

@@ -6,6 +6,7 @@ import {
 
 import { 
   AppStoreState,
+  FilterCredit,
   FilterRule
 } from './app.state'
 import { AccountDataExt } from 'src/model/data'
@@ -13,7 +14,9 @@ import { AccountDataExt } from 'src/model/data'
 // #region State
 const initialState: AppStoreState = {
   data: [],
-  filterRule: 'ALL'
+  filterRule: 'ALL',
+  filterCredit: 'ALL',
+  filterSearch: '',
 }
 // #endregion
 
@@ -31,6 +34,20 @@ export interface PayloadSetFilterRule {
 const setFilterRule: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterRule>> = (state, action) => {
   state.filterRule = action.payload.filter
 }
+
+export interface PayloadSetFilterCredit {
+  filter: FilterCredit
+}
+const setFilterCredit: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterCredit>> = (state, action) => {
+  state.filterCredit = action.payload.filter
+}
+
+export interface PayloadSetFilterSearch {
+  filter: string
+}
+const setFilterSearch: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterSearch>> = (state, action) => {
+  state.filterSearch = action.payload.filter
+}
 // #endregion
 
 // #region Slice
@@ -40,7 +57,9 @@ const AppSlice = createSlice({
 
   reducers: {
     setData,
-    setFilterRule
+    setFilterRule,
+    setFilterCredit,
+    setFilterSearch,
   },
 })
 // #endregion

@@ -9,7 +9,33 @@ import './AccountTable.css'
 
 export const AccountTable = () => {
   // #region Hooks
+  const [tableData, setTableData] = useState([])
   const data = useSelector(AppSelectors.data)
+  const filterRule = useSelector(AppSelectors.filterRule)
+  const filterCredit = useSelector(AppSelectors.filterCredit)
+  const filterSearch = useSelector(AppSelectors.filterSearch)
+
+  useEffect(() => {
+    let newData = data
+    if (filterRule === 'NONE') {
+      newData = newData.filter((data) => data.categories.length === 0)
+    }
+    if (filterRule === 'MORE') {
+      newData = newData.filter((data) => data.categories.length > 2)
+    }
+    if (filterCredit === 'CREDIT') {
+      newData = newData.filter((data) => data.value > 0)
+    }
+    if (filterCredit === 'DEBIT') {
+      newData = newData.filter((data) => data.value <= 0)
+    }
+    if (filterSearch) {
+      newData = newData.filter(
+        (data) => data.label1.toUpperCase().includes(filterSearch.toUpperCase()) || data.label2.toUpperCase().includes(filterSearch.toUpperCase())
+      )
+    }
+    setTableData(newData)
+  }, [data, filterRule, filterCredit, filterSearch])
   // #endregion
 
   // #region Rendering
@@ -24,10 +50,10 @@ export const AccountTable = () => {
         </tr>
       </thead>
       <tbody>
-        {data.map((line, index) => {
+        {tableData.map((line, index) => {
           return (
             <AccountTableRow
-              key={`data-${index}`}
+              key={`data-${index}-${line.label1}`}
               data={line}
             />
           )
@@ -36,7 +62,7 @@ export const AccountTable = () => {
       <tfoot>
         <tr>
           <AccountTableRowCell colSpan={3} value='Total' />
-          <AccountTableRowCell value={data.reduce((acc, line) => acc + line.value, 0)} />
+          <AccountTableRowCell value={tableData.reduce((acc, line) => acc + line.value, 0)} />
         </tr>
       </tfoot>
     </table>
