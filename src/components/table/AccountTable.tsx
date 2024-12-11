@@ -47,6 +47,8 @@ export const AccountTable = () => {
           <th className='account-table-row-cell' scope='col'>Date</th>
           <th className='account-table-row-cell' scope='col'>Labels</th>
           <th className='account-table-row-cell' scope='col'>Value</th>
+          <th className='account-table-row-cell' scope='col'>Category 1</th>
+          <th className='account-table-row-cell' scope='col'>Category 2</th>
         </tr>
       </thead>
       <tbody>
@@ -104,6 +106,8 @@ const AccountTableRow = ({
       <AccountTableRowCell value={new Date(data.date).toLocaleDateString('fr-FR')} />
       <AccountTableRowCell bold={true} value={[data.label1, data.label2]} />
       <AccountTableRowCell value={data.value} />
+      <AccountTableRowCell value={data.categories.length ? data.categories[0].category1 : ''} />
+      <AccountTableRowCell value={data.categories.length ? data.categories[0].category2 : ''} />
     </tr>
   )
   // #endregion

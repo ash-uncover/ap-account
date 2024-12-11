@@ -35,7 +35,9 @@ export const App = () => {
   
   useEffect(() => {
     if (status === DataStates.SUCCESS) {
-      const dataExt = enrichData(data, rules)
+      const dataExt = enrichData(data, rules).sort(
+        (data1, data2) => new Date(data2.date).getTime() - new Date(data1.date).getTime()
+      )
       dispatch(AppSlice.actions.setData({ data: dataExt }))
     }
   }, [status, data, rules])
