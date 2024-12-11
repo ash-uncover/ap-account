@@ -6,6 +6,11 @@
   overflow: auto;
   display: block;
 
+  & thead {
+    line-height: 2rem;
+    border-bottom: 1px solid grey;
+  }
+
   & .account-table-row {
     user-select: none;
     border-bottom: 1px solid #CCC;

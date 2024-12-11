@@ -5,13 +5,15 @@ import {
 } from '@reduxjs/toolkit'
 
 import { 
-  AppStoreState
+  AppStoreState,
+  FilterRule
 } from './app.state'
 import { AccountDataExt } from 'src/model/data'
 
 // #region State
 const initialState: AppStoreState = {
   data: [],
+  filterRule: 'ALL'
 }
 // #endregion
 
@@ -23,6 +25,12 @@ const setData: CaseReducer<AppStoreState, PayloadAction<PayloadSetData>> = (stat
   state.data = action.payload.data
 }
 
+export interface PayloadSetFilterRule {
+  filter: FilterRule
+}
+const setFilterRule: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterRule>> = (state, action) => {
+  state.filterRule = action.payload.filter
+}
 // #endregion
 
 // #region Slice
@@ -31,7 +39,8 @@ const AppSlice = createSlice({
   initialState,
 
   reducers: {
-    setData
+    setData,
+    setFilterRule
   },
 })
 // #endregion

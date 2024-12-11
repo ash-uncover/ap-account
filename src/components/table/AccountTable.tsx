@@ -16,7 +16,7 @@ export const AccountTable = () => {
   return (
     <table className='account-table'>
       <thead>
-        <tr>
+        <tr className='account-table-header-row'>
           <th className='account-table-row-cell' scope='col'>Account</th>
           <th className='account-table-row-cell' scope='col'>Date</th>
           <th className='account-table-row-cell' scope='col'>Labels</th>
