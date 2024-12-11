@@ -5,23 +5,33 @@
   flex-shrink: 1;
   overflow: auto;
   display: block;
-  
+
   & .account-table-row {
     user-select: none;
     border-bottom: 1px solid #CCC;
+
     &.account-table-row--credit {
-      background: #0F0;
+      background: #99EDC3;
     }
+
     &.account-table-row--hover {
       background: #EEE;
     }
+
     &.account-table-row--hover.account-table-row--credit {
-      background: #0A0;
+      background: #B2D3C2;
     }
   }
 
   & .account-table-row-cell {
     padding: 5px;
+    vertical-align: text-top;
+
+    &.account-table-row-cell--bold {
+      &>div:first-child {
+        font-weight: bold;
+      }
+    }
   }
 
   tfoot tr {

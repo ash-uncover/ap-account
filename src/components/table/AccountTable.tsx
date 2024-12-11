@@ -19,8 +19,7 @@ export const AccountTable = () => {
         <tr>
           <th className='account-table-row-cell' scope='col'>Account</th>
           <th className='account-table-row-cell' scope='col'>Date</th>
-          <th className='account-table-row-cell' scope='col'>Label 1</th>
-          <th className='account-table-row-cell' scope='col'>Label 2</th>
+          <th className='account-table-row-cell' scope='col'>Labels</th>
           <th className='account-table-row-cell' scope='col'>Value</th>
         </tr>
       </thead>
@@ -36,7 +35,7 @@ export const AccountTable = () => {
       </tbody>
       <tfoot>
         <tr>
-          <AccountTableRowCell colSpan={4} value='Total' />
+          <AccountTableRowCell colSpan={3} value='Total' />
           <AccountTableRowCell value={data.reduce((acc, line) => acc + line.value, 0)} />
         </tr>
       </tfoot>
@@ -77,8 +76,7 @@ const AccountTableRow = ({
     >
       <AccountTableRowCell value={data.account} />
       <AccountTableRowCell value={new Date(data.date).toLocaleDateString('fr-FR')} />
-      <AccountTableRowCell value={data.label1} />
-      <AccountTableRowCell value={data.label2} />
+      <AccountTableRowCell bold={true} value={[data.label1, data.label2]} />
       <AccountTableRowCell value={data.value} />
     </tr>
   )
@@ -86,15 +84,25 @@ const AccountTableRow = ({
 }
 
 interface AccountTableRowCellProperties {
+  className?: string
+  bold?: boolean
   colSpan?: number
   value: any
 }
 const AccountTableRowCell = ({ 
+  className,
+  bold,
   colSpan,
   value 
 }: AccountTableRowCellProperties) => {
   // #region Hooks
   const [classes, setClasses] = useState<string[]>(['account-table-row-cell'])
+  useEffect(() => {
+    setClasses((classes) => addClass(classes, className))
+  }, [className])
+  useEffect(() => {
+    setClasses((classes) => toggleClass(classes, 'account-table-row-cell--bold', bold))
+  }, [bold])
   // #endregion
 
   // #region Rendering
@@ -103,7 +111,9 @@ const AccountTableRowCell = ({
       className={classes.join(' ')}
       colSpan={colSpan}
     >
-      {value}
+      {Array.isArray(value) ?
+        value.map((v, index) => <div key={index}>{v}</div>)
+      : <div>{value}</div>}
     </td>
   )
   // #endregion
