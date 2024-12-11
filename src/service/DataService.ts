@@ -1,4 +1,4 @@
-import { AccountLabel, AccountRules } from '../store/data/data.state'
+import { AccountCategory, AccountRule } from '../model/data'
 import DataSlice from '../store/data/data.slice'
 import { read } from '../utils/CSVReader'
 
@@ -43,7 +43,7 @@ export const loadRules = async (dispatch: any) => {
     .then((result) => {
       return result.json()
     })
-    .then((rules: AccountRules) => {
+    .then((rules: AccountRule[]) => {
       dispatch(DataSlice.actions.getRulesSuccess({ rules }))
     })
     .catch((error) => {
@@ -57,7 +57,7 @@ export const loadLabels = async (dispatch: any) => {
     .then((result) => {
       return result.json()
     })
-    .then((labels: AccountLabel[]) => {
+    .then((labels: AccountCategory[]) => {
       dispatch(DataSlice.actions.getLabelsSuccess({ labels }))
     })
     .catch((error) => {

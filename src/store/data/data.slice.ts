@@ -3,14 +3,18 @@ import {
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit'
+import { 
+  DataStates 
+} from '@uncover/js-utils'
 
 import { 
-  AccountData,
-  AccountLabel,
-  AccountRules,
   DataStoreState
 } from './data.state'
-import { DataStates } from '@uncover/js-utils'
+import { 
+  AccountData, 
+  AccountCategory, 
+  AccountRule
+} from '../../model/data'
 
 // #region State
 const initialState: DataStoreState = {
@@ -18,10 +22,7 @@ const initialState: DataStoreState = {
   dataLoadStatus: DataStates.NEVER,
   dataLoadError: '',
 
-  rules: {
-    credit: [],
-    debit: []
-  },
+  rules: [],
   rulesLoadStatus: DataStates.NEVER,
   rulesLoadError: '',
 
@@ -61,7 +62,7 @@ const getRulesRequest: CaseReducer<DataStoreState, PayloadAction<void>> = (state
   state.rulesLoadError = null
 }
 interface PayloadGetRulesSuccess {
-  rules: AccountRules
+  rules: AccountRule[]
 }
 const getRulesSuccess: CaseReducer<DataStoreState, PayloadAction<PayloadGetRulesSuccess>> = (state, action) => {
   state.rules = action.payload.rules
@@ -83,7 +84,7 @@ const getLabelsRequest: CaseReducer<DataStoreState, PayloadAction<void>> = (stat
   state.labelsLoadError = null
 }
 interface PayloadGetLabelsSuccess {
-  labels: AccountLabel[]
+  labels: AccountCategory[]
 }
 const getLabelsSuccess: CaseReducer<DataStoreState, PayloadAction<PayloadGetLabelsSuccess>> = (state, action) => {
   state.labels = action.payload.labels

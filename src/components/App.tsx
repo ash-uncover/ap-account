@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DataState, DataStates, DataStatesUtils } from '@uncover/js-utils'
 import { AccountTable } from './table/AccountTable'
+import AppSlice from '../store/app/app.slice'
 import DataSelectors from '../store/data/data.selectors'
 import { loadData, loadLabels, loadRules } from '../service/DataService'
+import { enrichData } from '../utils/RuleMatcher'
 // CSS
 import './App.css'
 
@@ -21,12 +23,21 @@ export const App = () => {
   const labelsLoadStatus = useSelector(DataSelectors.labelsLoadStatus)
   const labelsLoadError = useSelector(DataSelectors.labelsLoadError)
 
+  const data = useSelector(DataSelectors.data)
+  const rules = useSelector(DataSelectors.rules)
+  const labels = useSelector(DataSelectors.labels)
+
   useEffect(() => {
     const newStatus = DataStatesUtils.mergeDataStates([dataLoadStatus, rulesLoadStatus, labelsLoadStatus])
-    console.log(dataLoadStatus, rulesLoadStatus, labelsLoadStatus)
-    console.log(newStatus)
     setStatus(newStatus)
   }, [dataLoadStatus, rulesLoadStatus, labelsLoadStatus])
+  
+  useEffect(() => {
+    if (status === DataStates.SUCCESS) {
+      const dataExt = enrichData(data, rules)
+      dispatch(AppSlice.actions.setData({ data: dataExt }))
+    }
+  }, [status, data, rules])
 
   useEffect(() => {
     loadData(dispatch)

@@ -7,8 +7,14 @@
   
   & .account-table-row {
     user-select: none;
+    &.account-table-row--credit {
+      background: #0F0;
+    }
     &.account-table-row--hover {
       background: #EEE;
+    }
+    &.account-table-row--hover.account-table-row--credit {
+      background: #0A0;
     }
   }
 
