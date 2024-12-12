@@ -5,8 +5,10 @@ import { AccountTable } from './table/AccountTable'
 import AppSlice from '../store/app/app.slice'
 import DataSelectors from '../store/data/data.selectors'
 import { loadData, loadLabels, loadRules } from '../service/DataService'
-import { enrichData } from '../utils/RuleMatcher'
+import { enrichData, extractLabels } from '../utils/RuleMatcher'
 import { AccountFilters } from './filters/AccountFilters'
+import { Section } from './common/Section'
+import { AccountRules } from './rules/AccountRules'
 // CSS
 import './App.css'
 
@@ -26,7 +28,6 @@ export const App = () => {
 
   const data = useSelector(DataSelectors.data)
   const rules = useSelector(DataSelectors.rules)
-  const labels = useSelector(DataSelectors.labels)
 
   useEffect(() => {
     const newStatus = DataStatesUtils.mergeDataStates([dataLoadStatus, rulesLoadStatus, labelsLoadStatus])
@@ -39,6 +40,9 @@ export const App = () => {
         (data1, data2) => new Date(data2.date).getTime() - new Date(data1.date).getTime()
       )
       dispatch(AppSlice.actions.setData({ data: dataExt }))
+
+      const labels = extractLabels(rules)
+      dispatch(AppSlice.actions.setLabels({ labels }))
     }
   }, [status, data, rules])
 
@@ -47,9 +51,6 @@ export const App = () => {
     loadRules(dispatch)
     loadLabels(dispatch)
   }, [])
-  // #endregion
-
-  // #region Events
   // #endregion
 
   // #region Rendering
@@ -77,10 +78,21 @@ export const App = () => {
     case DataStates.SUCCESS: {
       return (
         <div className='app'>
-          <header></header>
-          <main>
-            <AccountFilters />
-            <AccountTable />
+          <header className='app-header'>
+            HEAD
+          </header>
+          <main className='app-main'>
+            <div className='app-content'>
+              <Section className='app-content-filters'>
+                <AccountFilters />
+              </Section>
+              <Section className='app-content-table'>
+                <AccountTable />
+              </Section>
+            </div>
+            <Section className='app-side'>
+              <AccountRules />
+            </Section>
           </main>
         </div>
       )

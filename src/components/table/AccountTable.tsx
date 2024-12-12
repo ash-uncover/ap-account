@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import AppSelectors from '../../store/app/app.selectors'
 import DataSelectors from '../../store/data/data.selectors'
@@ -6,6 +6,7 @@ import { AccountData, AccountDataExt } from '../../model/data'
 import { addClass, removeClass, toggleClass } from '../../utils/ClassHelper'
 // CSS
 import './AccountTable.css'
+import { Tag } from '../common/Tag'
 
 export const AccountTable = () => {
   // #region Hooks
@@ -49,6 +50,7 @@ export const AccountTable = () => {
           <th className='account-table-row-cell' scope='col'>Value</th>
           <th className='account-table-row-cell' scope='col'>Category 1</th>
           <th className='account-table-row-cell' scope='col'>Category 2</th>
+          <th className='account-table-row-cell' scope='col'></th>
         </tr>
       </thead>
       <tbody>
@@ -63,8 +65,12 @@ export const AccountTable = () => {
       </tbody>
       <tfoot>
         <tr>
-          <AccountTableRowCell colSpan={3} value='Total' />
-          <AccountTableRowCell value={tableData.reduce((acc, line) => acc + line.value, 0)} />
+          <AccountTableRowCell colSpan={3}>
+            Total
+          </AccountTableRowCell>
+          <AccountTableRowCell>
+            {tableData.reduce((acc, line) => acc + line.value, 0)}
+          </AccountTableRowCell>
         </tr>
       </tfoot>
     </table>
@@ -93,6 +99,9 @@ const AccountTableRow = ({
   function handleMouseLeave() {
     setClasses((classes) => removeClass(classes, 'account-table-row--hover'))
   }
+  function handleButtonAddRuleClick(data) {
+    
+  }
   // #endregion
 
   // #region Rendering
@@ -102,28 +111,49 @@ const AccountTableRow = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <AccountTableRowCell value={data.account} />
-      <AccountTableRowCell value={new Date(data.date).toLocaleDateString('fr-FR')} />
-      <AccountTableRowCell bold={true} value={[data.label1, data.label2]} />
-      <AccountTableRowCell value={data.value} />
-      <AccountTableRowCell value={data.categories.length ? data.categories[0].category1 : ''} />
-      <AccountTableRowCell value={data.categories.length ? data.categories[0].category2 : ''} />
+      <AccountTableRowCell>
+        {data.account}
+      </AccountTableRowCell>
+      <AccountTableRowCell >
+        {new Date(data.date).toLocaleDateString('fr-FR')}
+      </AccountTableRowCell>
+      <AccountTableRowCell bold={true} >
+        <div>{data.label1}</div>
+        <div>{data.label2}</div>
+      </AccountTableRowCell>
+      <AccountTableRowCell>
+        {data.value}
+      </AccountTableRowCell>
+      <AccountTableRowCell>
+      {data.categories.length ? 
+          <Tag>{data.categories[0].category1}</Tag> 
+        : ''}
+      </AccountTableRowCell>
+      <AccountTableRowCell>
+        {data.categories.length && data.categories[0].category2 ? 
+          <Tag>{data.categories[0].category2}</Tag> 
+        : ''}
+      </AccountTableRowCell>
+      <AccountTableRowCell>
+        <button onClick={() => handleButtonAddRuleClick(data)}>
+          +
+        </button>
+      </AccountTableRowCell>
     </tr>
   )
   // #endregion
 }
 
-interface AccountTableRowCellProperties {
+interface AccountTableRowCellProperties extends PropsWithChildren {
   className?: string
   bold?: boolean
   colSpan?: number
-  value: any
 }
 const AccountTableRowCell = ({ 
   className,
   bold,
   colSpan,
-  value 
+  children
 }: AccountTableRowCellProperties) => {
   // #region Hooks
   const [classes, setClasses] = useState<string[]>(['account-table-row-cell'])
@@ -141,9 +171,7 @@ const AccountTableRowCell = ({
       className={classes.join(' ')}
       colSpan={colSpan}
     >
-      {Array.isArray(value) ?
-        value.map((v, index) => <div key={index}>{v}</div>)
-      : <div>{value}</div>}
+      {children}
     </td>
   )
   // #endregion

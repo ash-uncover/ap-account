@@ -20,7 +20,7 @@
     }
 
     &.account-table-row--hover {
-      background: #EEE;
+      background: #DDD;
     }
 
     &.account-table-row--hover.account-table-row--credit {

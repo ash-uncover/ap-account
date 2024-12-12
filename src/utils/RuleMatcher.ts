@@ -1,3 +1,4 @@
+import { Labels } from 'src/store/app/app.state'
 import { AccountData, AccountCategory, AccountRule, AccountDataExt, Rule } from '../model/data'
 
 export function enrichData(data: AccountData[], rules: AccountRule[]): AccountDataExt[] {
@@ -15,6 +16,33 @@ export function enrichData(data: AccountData[], rules: AccountRule[]): AccountDa
       result.categories = lineRules.map(line => line.category)
       return result
     }
+  )
+}
+
+export function extractLabels(rules: AccountRule[]): Labels {
+  return rules.reduce(
+    (acc, rule) => {
+      const {
+        credit,
+        category1,
+        category2
+      } = rule.category
+      if (credit) {
+        acc.credit[category1] = acc.credit[category1] || []
+        if (category2 && !acc.credit[category1].includes(category2)) {
+          acc.credit[category1].push(category2)
+          acc.credit[category1].sort((c1, c2) => c1.localeCompare(c2))
+        }
+      } else {
+        acc.debit[category1] = acc.debit[category1] || []
+        if (category2 && !acc.debit[category1].includes(category2)) {
+          acc.debit[category1].push(category2)
+          acc.debit[category1].sort((c1, c2) => c1.localeCompare(c2))
+        }
+      }
+      return acc
+    },
+    { credit: {}, debit: {} }
   )
 }
 

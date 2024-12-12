@@ -7,13 +7,15 @@ import {
 import { 
   AppStoreState,
   FilterCredit,
-  FilterRule
+  FilterRule,
+  Labels
 } from './app.state'
 import { AccountDataExt } from 'src/model/data'
 
 // #region State
 const initialState: AppStoreState = {
   data: [],
+  labels: { credit: {}, debit: {} },
   filterRule: 'ALL',
   filterCredit: 'ALL',
   filterSearch: '',
@@ -26,6 +28,13 @@ export interface PayloadSetData {
 }
 const setData: CaseReducer<AppStoreState, PayloadAction<PayloadSetData>> = (state, action) => {
   state.data = action.payload.data
+}
+
+export interface PayloadSetLabels {
+  labels: Labels
+}
+const setLabels: CaseReducer<AppStoreState, PayloadAction<PayloadSetLabels>> = (state, action) => {
+  state.labels = action.payload.labels
 }
 
 export interface PayloadSetFilterRule {
@@ -57,6 +66,8 @@ const AppSlice = createSlice({
 
   reducers: {
     setData,
+    setLabels,
+
     setFilterRule,
     setFilterCredit,
     setFilterSearch,

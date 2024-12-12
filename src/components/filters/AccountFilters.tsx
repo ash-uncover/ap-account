@@ -1,6 +1,6 @@
 import React from 'react'
 //
-import { AccountFiltersSearch } from './AccountFilterSearch'
+import { AccountFilterSearch } from './AccountFilterSearch'
 import { AccountFilterCredit } from './AccountFilterCredit'
 import { AccountFilterRule } from './AccountFilterRule'
 // CSS
@@ -14,7 +14,7 @@ export const AccountFilters = () => {
       
       <AccountFilterRule />
       <AccountFilterCredit />
-      <AccountFiltersSearch />
+      <AccountFilterSearch />
     </div>
   )
   // #endregion

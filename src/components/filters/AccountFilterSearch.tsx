@@ -5,7 +5,7 @@ import AppSelectors from '../../store/app/app.selectors'
 import AppSlice from '../../store/app/app.slice'
 // CSS
 
-export const AccountFiltersSearch = () => {
+export const AccountFilterSearch = () => {
   // #region Hooks
   const dispatch = useDispatch()
   const filterSearch = useSelector(AppSelectors.filterSearch)

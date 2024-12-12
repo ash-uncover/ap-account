@@ -3,19 +3,54 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  background: #202834;
 
-  header {
+  & .app-header {
     flex-grow: 0;
     flex-shrink: 0;
+    height: 2.5rem;
+    background: black;
+    color: white;
   }
 
-  main {
+  & .app-main {
     overflow: hidden;
     height: 0;
     flex-grow: 1;
     flex-shrink: 1;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 1rem;
+    & .app-content {
+      overflow: hidden;
+      width: 0;
+      flex-grow: 1;
+      flex-shrink: 1;
+
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      & .app-content-filters {
+        flex-grow: 0;
+        flex-shrink: 0;
+      }
+
+      & .app-content-table {
+        height: 0;
+        flex-grow: 1;
+        flex-shrink: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+      }
+    }
+
+    & .app-side {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
   }
 }

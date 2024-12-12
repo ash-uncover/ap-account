@@ -2,6 +2,11 @@ import {
   AccountDataExt 
 } from '../../model/data';
 
+export interface Labels {
+  credit: Record<string, string[]>
+  debit: Record<string, string[]>
+}
+
 export type FilterRule =
   | 'ALL'
   | 'NONE'
@@ -14,6 +19,7 @@ export type FilterCredit =
 
 export interface AppStoreState {
   data: AccountDataExt[]
+  labels: Labels
 
   filterRule: FilterRule
   filterCredit: FilterCredit

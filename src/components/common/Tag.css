@@ -1,0 +1,12 @@
+.tag {
+  line-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+
+  &.tag-color-0 {
+    background: #CCC;
+  }
+}
