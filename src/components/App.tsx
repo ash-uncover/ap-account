@@ -11,6 +11,7 @@ import { Section } from './common/Section'
 import { AccountRules } from './rules/AccountRules'
 // CSS
 import './App.css'
+import { DialogCreateRule } from './rules/DialogCreateRule'
 
 export const App = () => {
   // #region Hooks
@@ -77,24 +78,27 @@ export const App = () => {
     }
     case DataStates.SUCCESS: {
       return (
-        <div className='app'>
-          <header className='app-header'>
-            HEAD
-          </header>
-          <main className='app-main'>
-            <div className='app-content'>
-              <Section className='app-content-filters'>
-                <AccountFilters />
+        <>
+          <div className='app'>
+            <header className='app-header'>
+              HEAD
+            </header>
+            <main className='app-main'>
+              <div className='app-content'>
+                <Section className='app-content-filters'>
+                  <AccountFilters />
+                </Section>
+                <Section className='app-content-table'>
+                  <AccountTable />
+                </Section>
+              </div>
+              <Section className='app-side'>
+                <AccountRules />
               </Section>
-              <Section className='app-content-table'>
-                <AccountTable />
-              </Section>
-            </div>
-            <Section className='app-side'>
-              <AccountRules />
-            </Section>
-          </main>
-        </div>
+            </main>
+          </div>
+          <DialogCreateRule />
+        </>
       )
     }
   }
