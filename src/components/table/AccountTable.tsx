@@ -1,14 +1,19 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+//
 import AppSelectors from '../../store/app/app.selectors'
-import DataSelectors from '../../store/data/data.selectors'
-import { AccountData, AccountDataExt } from '../../model/data'
+import { AccountDataExt } from '../../model/data'
 import { addClass, removeClass, toggleClass } from '../../utils/ClassHelper'
+import { Tag } from '../common/Tag'
 // CSS
 import './AccountTable.css'
-import { Tag } from '../common/Tag'
 
-export const AccountTable = () => {
+export interface AccountTableProperties {
+  onAddRule: (dataLine: AccountDataExt) => void
+}
+export const AccountTable = ({
+  onAddRule
+}: AccountTableProperties) => {
   // #region Hooks
   const [tableData, setTableData] = useState([])
   const data = useSelector(AppSelectors.data)
@@ -59,6 +64,7 @@ export const AccountTable = () => {
             <AccountTableRow
               key={`data-${index}-${line.label1}`}
               data={line}
+              onAddRule={onAddRule}
             />
           )
         })}
@@ -80,9 +86,11 @@ export const AccountTable = () => {
 
 interface AccountTableRowProperties {
   data: AccountDataExt
+  onAddRule: (dataLine: AccountDataExt) => void
 }
 const AccountTableRow = ({
-  data
+  data,
+  onAddRule
 }: AccountTableRowProperties) => {
   // #region Hooks
   const [classes, setClasses] = useState<string[]>(['account-table-row'])
@@ -99,8 +107,8 @@ const AccountTableRow = ({
   function handleMouseLeave() {
     setClasses((classes) => removeClass(classes, 'account-table-row--hover'))
   }
-  function handleButtonAddRuleClick(data) {
-    
+  function handleButtonAddRuleClick() {
+    onAddRule(data)
   }
   // #endregion
 
@@ -135,7 +143,7 @@ const AccountTableRow = ({
         : ''}
       </AccountTableRowCell>
       <AccountTableRowCell>
-        <button onClick={() => handleButtonAddRuleClick(data)}>
+        <button onClick={handleButtonAddRuleClick}>
           +
         </button>
       </AccountTableRowCell>

@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 //
-import DataSelectors from '../../store/data/data.selectors'
-import { toggleClass } from '../../utils/ClassHelper'
-import { OPERATORS, SelectOperator } from './SelectOperator'
+import DataSelectors from '../../../store/data/data.selectors'
+import { toggleClass } from '../../../utils/ClassHelper'
+import { SelectOperator } from '../SelectOperator'
+import { OperatorKey, OPERATORS } from '../../../model/operators'
 // CSS
 
 export interface SelectAccountState {
   activated: boolean
-  operator: string
+  operator: OperatorKey
   account: string
 }
 interface SelectRuleAccountProperties {
@@ -25,7 +26,7 @@ export const SelectRuleAccount = ({
   const [classes, setClasses] = useState(['select-rule-account'])
   
   const [activated, setActivated] = useState<boolean>(false)
-  const [operator, setOperator] = useState<string>('')
+  const [operator, setOperator] = useState<OperatorKey>()
   const [account, setAccount] = useState<string>('')
   const [accounts, setAccounts] = useState<string[]>([])
   
@@ -61,7 +62,7 @@ export const SelectRuleAccount = ({
       account
     })
   }, [operator, account])
-  const handleOperatorChange = useCallback((operator: string) => {
+  const handleOperatorChange = useCallback((operator: OperatorKey) => {
     setOperator(operator)
     onChange({
       activated,

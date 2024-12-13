@@ -1,37 +1,38 @@
 import React, { useCallback, useEffect, useState } from 'react'
 //
-import { toggleClass } from '../../utils/ClassHelper'
-import { OPERATORS, SelectOperator } from './SelectOperator'
+import { toggleClass } from '../../../utils/ClassHelper'
+import { SelectOperator } from '../SelectOperator'
+import { OperatorKey, OPERATORS } from '../../../model/operators'
 // CSS
 
 export interface SelectLabelState {
   activated: boolean
-  operator: string
+  operator: OperatorKey
   value: string
 }
 interface SelectRuleLabelProperties {
   className?: string
   disabled?: boolean
-  label: string
+  field: string
   onChange: (state: SelectLabelState) => void
 }
 export const SelectRuleLabel = ({
   className,
   disabled,
-  label,
-  onChange,
+  field,
+  onChange
 }: SelectRuleLabelProperties) => {
   // #region Hooks
   const [classes, setClasses] = useState(['select-rule-label'])
-  
+
   const [activated, setActivated] = useState<boolean>(false)
-  const [operator, setOperator] = useState<string>('')
+  const [operator, setOperator] = useState<OperatorKey>()
   const [value, setValue] = useState<string>('')
 
   useEffect(() => {
     setClasses((classes) => toggleClass(classes, 'select-rule-label--disabled', disabled))
   }, [disabled])
-  
+
   useEffect(() => {
     setClasses((classes) => toggleClass(classes, 'select-rule-label--activated', activated))
   }, [activated])
@@ -47,11 +48,11 @@ export const SelectRuleLabel = ({
       value
     })
   }, [operator, value])
-  const handleOperatorChange = useCallback((operator: string) => {
-    setOperator(operator)
+  const handleOperatorChange = useCallback((op: OperatorKey) => {
+    setOperator(op)
     onChange({
       activated,
-      operator,
+      operator: op,
       value
     })
   }, [activated, value])
@@ -68,27 +69,27 @@ export const SelectRuleLabel = ({
   // #region Rendering
   return (
     <div className={[...classes, className].join(' ')}>
-      <input 
-        type='checkbox' 
-        checked={activated} 
+      <input
+        type='checkbox'
+        checked={activated}
         disabled={disabled}
         onChange={handleCheckboxActivateChange}
       />
-      
-      <span>{label}</span>
-      
-      <SelectOperator 
+
+      <span>{field}</span>
+
+      <SelectOperator
         disabled={!activated || disabled}
         name='operator-label'
         operator={operator}
         operators={Object.values(OPERATORS)}
         onChange={handleOperatorChange}
       />
-      
-      <input 
+
+      <input
         disabled={!activated || disabled}
         value={value}
-        onChange={handleValueChange} 
+        onChange={handleValueChange}
       />
     </div>
   )

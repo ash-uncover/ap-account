@@ -1,25 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Operator } from '../../model/operators'
 // CSS
-
-export interface Operator {
-  key: string
-  text: string
-}
-export const OPERATORS: {
-  EQUAL: Operator
-  NOT_EQUAL: Operator
-  STARTSWITH: Operator
-  NOT_STARTSWITH: Operator
-  INCLUDES: Operator
-  NOT_INCLUDES: Operator
-} = {
-  EQUAL: { key: 'equal', text: 'equal' },
-  NOT_EQUAL: { key: 'notequal', text: 'not equal' },
-  STARTSWITH: { key: 'startswith', text: 'startswith' },
-  NOT_STARTSWITH: { key: 'notstartswith', text: 'not startswith' },
-  INCLUDES: { key: 'includes', text: 'includes' },
-  NOT_INCLUDES: { key: 'notincludes', text: 'includes' },
-}
 
 export interface SelectOperatorProperties {
   className?: string

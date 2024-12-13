@@ -1,3 +1,5 @@
+import { OperatorKey } from './operators'
+
 export type AccountField = 
   | 'account'
   | 'date'
@@ -21,14 +23,9 @@ export interface AccountDataExt {
   categories: AccountCategory[]
 }
 
-type RuleOperator = 
-  | 'startsWith' 
-  | 'equal' 
-  | 'includes'
-
 interface RuleCondition {
   field: AccountField
-  operator: RuleOperator
+  operator: OperatorKey
   value: string
 }
 interface RuleAnd {

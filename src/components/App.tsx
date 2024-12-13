@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DataState, DataStates, DataStatesUtils } from '@uncover/js-utils'
+//
+import { Section } from './common/Section'
+import { AccountFilters } from './filters/AccountFilters'
+import { AccountRules } from './rules/AccountRules'
+import { DialogCreateRule } from './rules/DialogCreateRule'
 import { AccountTable } from './table/AccountTable'
+import { AccountDataExt, AccountRule } from '../model/data'
+import { loadData, loadLabels, loadRules } from '../service/DataService'
 import AppSlice from '../store/app/app.slice'
 import DataSelectors from '../store/data/data.selectors'
-import { loadData, loadLabels, loadRules } from '../service/DataService'
 import { enrichData, extractLabels } from '../utils/RuleMatcher'
-import { AccountFilters } from './filters/AccountFilters'
-import { Section } from './common/Section'
-import { AccountRules } from './rules/AccountRules'
 // CSS
 import './App.css'
-import { DialogCreateRule } from './rules/DialogCreateRule'
 
 export const App = () => {
   // #region Hooks
   const dispatch = useDispatch()
   const [status, setStatus] = useState<DataState>(DataStates.NEVER)
+  const [addRuleFromData, setAddRuleFromData] = useState(null)
 
   const dataLoadStatus = useSelector(DataSelectors.dataLoadStatus)
   const dataLoadError = useSelector(DataSelectors.dataLoadError)
@@ -54,6 +57,19 @@ export const App = () => {
   }, [])
   // #endregion
 
+  // #region Events
+  function handleAddRuleFromData(data: AccountDataExt) {
+    setAddRuleFromData(data)
+  }
+  function handleDialogCreateRuleFromDataCancel() {
+    setAddRuleFromData(null)
+  }
+  function handleDialogCreateRuleFromDataCreate(rule: AccountRule) {
+    console.log(rule)
+    setAddRuleFromData(null)
+  }
+  // #endregion
+
   // #region Rendering
   switch (status) {
     case DataStates.NEVER: 
@@ -89,7 +105,9 @@ export const App = () => {
                   <AccountFilters />
                 </Section>
                 <Section className='app-content-table'>
-                  <AccountTable />
+                  <AccountTable 
+                    onAddRule={handleAddRuleFromData}
+                  />
                 </Section>
               </div>
               <Section className='app-side'>
@@ -97,7 +115,13 @@ export const App = () => {
               </Section>
             </main>
           </div>
-          <DialogCreateRule />
+          {addRuleFromData ?
+            <DialogCreateRule 
+              data={addRuleFromData}
+              onCancel={handleDialogCreateRuleFromDataCancel}
+              onCreate={handleDialogCreateRuleFromDataCreate}
+            />
+          : null}
         </>
       )
     }
