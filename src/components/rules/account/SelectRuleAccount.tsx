@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 //
-import DataSelectors from '../../../store/data/data.selectors'
+import { DataSelectors } from '../../../store/data/data.selectors'
 import { toggleClass } from '../../../utils/ClassHelper'
 import { SelectOperator } from '../SelectOperator'
 import { OperatorKey, OPERATORS } from '../../../model/operators'
 // CSS
 
 export interface SelectAccountState {
-  activated: boolean
   operator: OperatorKey
   account: string
 }
@@ -25,7 +24,6 @@ export const SelectRuleAccount = ({
   // #region Hooks
   const [classes, setClasses] = useState(['select-rule-account'])
   
-  const [activated, setActivated] = useState<boolean>(false)
   const [operator, setOperator] = useState<OperatorKey>()
   const [account, setAccount] = useState<string>('')
   const [accounts, setAccounts] = useState<string[]>([])
@@ -35,10 +33,6 @@ export const SelectRuleAccount = ({
   useEffect(() => {
     setClasses((classes) => toggleClass(classes, 'select-rule-account--disabled', disabled))
   }, [disabled])
-  
-  useEffect(() => {
-    setClasses((classes) => toggleClass(classes, 'select-rule-account--activated', activated))
-  }, [activated])
   
   useEffect(() => {
     const newAccounts = data.reduce((acc: string[], d) => {
@@ -54,46 +48,29 @@ export const SelectRuleAccount = ({
   // #endregion
 
   // #region Events
-  const handleCheckboxActivateChange = useCallback((event: any) => {
-    setActivated(event.target.checked)
-    onChange({
-      activated: event.target.checked,
-      operator,
-      account
-    })
-  }, [operator, account])
+  
   const handleOperatorChange = useCallback((operator: OperatorKey) => {
     setOperator(operator)
     onChange({
-      activated,
       operator,
       account
     })
-  }, [activated, account])
+  }, [account])
   const handleAccountChange = useCallback((event: any) => {
     setAccount(event.target.value)
     onChange({
-      activated,
       operator,
       account: event.target.value
     })
-  }, [activated, operator])
+  }, [operator])
   // #endregion
 
   // #region Rendering
   return (
     <div className={[...classes, className].join(' ')}>
-      <input 
-        type='checkbox' 
-        checked={activated} 
-        disabled={disabled}
-        onChange={handleCheckboxActivateChange}
-      />
-      
-      <span>Account</span>
       
       <SelectOperator 
-        disabled={!activated || disabled}
+        disabled={disabled}
         name='operator-account'
         operator={operator}
         operators={[OPERATORS.EQUAL, OPERATORS.NOT_EQUAL]}
@@ -102,7 +79,7 @@ export const SelectRuleAccount = ({
       
       <select 
         name='account'
-        disabled={!activated || disabled}
+        disabled={disabled}
         onChange={handleAccountChange}
       >
         {accounts.map(

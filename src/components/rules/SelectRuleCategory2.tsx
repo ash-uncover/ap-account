@@ -29,7 +29,7 @@ export const SelectRuleCategory2 = ({
       })
     })
     Object.keys(labels.debit).forEach((key: string) => {
-      labels.credit[key].forEach((value) => {
+      labels.debit[key].forEach((value) => {
         if (!newCategories2.includes(value)) {
           newCategories2.push(value)
         }

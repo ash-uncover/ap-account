@@ -42,7 +42,7 @@ export const AccountRules = () => {
                   <li key={key}>
                     {key}
                     <ul>
-                      {labels.credit[key].map(
+                      {labels.debit[key].map(
                         (label) => <li key={`${key}-${label}`}>{label}</li>
                       )}
                     </ul>

@@ -76,6 +76,15 @@ const getRulesFailure: CaseReducer<DataStoreState, PayloadAction<PayloadGetRules
   state.rulesLoadStatus = DataStates.FAILURE
   state.rulesLoadError = action.payload.error
 }
+interface PayloadAddRule {
+  rule: AccountRule
+}
+const addRule: CaseReducer<DataStoreState, PayloadAction<PayloadAddRule>> = (state, action) => {
+  state.rules = [
+    ...state.rules,
+    action.payload.rule
+  ]
+}
 // #endregion
 
 // #region > Labels
@@ -115,6 +124,7 @@ const DataSlice = createSlice({
     getRulesRequest,
     getRulesSuccess,
     getRulesFailure,
+    addRule,
 
     getLabelsRequest,
     getLabelsSuccess,

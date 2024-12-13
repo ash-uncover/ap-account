@@ -13,6 +13,8 @@ export function enrichData(data: AccountData[], rules: AccountRule[]): AccountDa
         categories: []
       }
       const lineRules = rules.filter((rule) => matchRule(result, rule.rule))
+      const isCredit = lineRules.length && lineRules.every(line => line.category.credit)
+      result.value = (isCredit ? 1 : -1) * Math.abs(result.value)
       result.categories = lineRules.map(line => line.category)
       return result
     }

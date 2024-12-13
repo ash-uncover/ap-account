@@ -123,14 +123,17 @@ export const DialogCreateRule = ({
           </div>
           : null}
         <RuleBuilderAccount
+          disabled={ruleExact}
           onChange={handleRuleAccountChange}
         />
         <RuleBuilderLabel
+          disabled={ruleExact}
           field='label1'
           fieldLabel='Label 1'
           onChange={handleRuleLabel1Change}
         />
         <RuleBuilderLabel
+          disabled={ruleExact}
           field='label2'
           fieldLabel='Label 2'
           onChange={handleRuleLabel2Change}

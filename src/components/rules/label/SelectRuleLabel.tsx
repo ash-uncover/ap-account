@@ -6,7 +6,6 @@ import { OperatorKey, OPERATORS } from '../../../model/operators'
 // CSS
 
 export interface SelectLabelState {
-  activated: boolean
   operator: OperatorKey
   value: string
 }
@@ -25,61 +24,36 @@ export const SelectRuleLabel = ({
   // #region Hooks
   const [classes, setClasses] = useState(['select-rule-label'])
 
-  const [activated, setActivated] = useState<boolean>(false)
   const [operator, setOperator] = useState<OperatorKey>()
   const [value, setValue] = useState<string>('')
 
   useEffect(() => {
     setClasses((classes) => toggleClass(classes, 'select-rule-label--disabled', disabled))
   }, [disabled])
-
-  useEffect(() => {
-    setClasses((classes) => toggleClass(classes, 'select-rule-label--activated', activated))
-  }, [activated])
-
   // #endregion
 
   // #region Events
-  const handleCheckboxActivateChange = useCallback((event: any) => {
-    setActivated(event.target.checked)
-    onChange({
-      activated: event.target.checked,
-      operator,
-      value
-    })
-  }, [operator, value])
   const handleOperatorChange = useCallback((op: OperatorKey) => {
     setOperator(op)
     onChange({
-      activated,
       operator: op,
       value
     })
-  }, [activated, value])
+  }, [value])
   const handleValueChange = useCallback((event: any) => {
     setValue(event.target.value)
     onChange({
-      activated,
       operator,
       value: event.target.value
     })
-  }, [activated, operator])
+  }, [operator])
   // #endregion
 
   // #region Rendering
   return (
-    <div className={[...classes, className].join(' ')}>
-      <input
-        type='checkbox'
-        checked={activated}
-        disabled={disabled}
-        onChange={handleCheckboxActivateChange}
-      />
-
-      <span>{field}</span>
-
+    <span className={[...classes, className].join(' ')}>
       <SelectOperator
-        disabled={!activated || disabled}
+        disabled={disabled}
         name='operator-label'
         operator={operator}
         operators={Object.values(OPERATORS)}
@@ -87,11 +61,11 @@ export const SelectRuleLabel = ({
       />
 
       <input
-        disabled={!activated || disabled}
+        disabled={disabled}
         value={value}
         onChange={handleValueChange}
       />
-    </div>
+    </span>
   )
   // #endregion
 }

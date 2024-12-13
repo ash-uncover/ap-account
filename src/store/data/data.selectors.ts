@@ -14,7 +14,7 @@ export const labels = (state: RootState) => base(state).labels
 export const labelsLoadStatus = (state: RootState) => base(state).labelsLoadStatus
 export const labelsLoadError = (state: RootState) => base(state).labelsLoadError
 
-const DataSelectors = {
+export const DataSelectors = {
   data,
   dataLoadStatus,
   dataLoadError,
@@ -27,5 +27,3 @@ const DataSelectors = {
   labelsLoadStatus,
   labelsLoadError,
 }
-
-export default DataSelectors

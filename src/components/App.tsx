@@ -10,7 +10,8 @@ import { AccountTable } from './table/AccountTable'
 import { AccountDataExt, AccountRule } from '../model/data'
 import { loadData, loadLabels, loadRules } from '../service/DataService'
 import AppSlice from '../store/app/app.slice'
-import DataSelectors from '../store/data/data.selectors'
+import { DataSelectors } from '../store/data/data.selectors'
+import DataSlice from '../store/data/data.slice'
 import { enrichData, extractLabels } from '../utils/RuleMatcher'
 // CSS
 import './App.css'
@@ -65,7 +66,7 @@ export const App = () => {
     setAddRuleFromData(null)
   }
   function handleDialogCreateRuleFromDataCreate(rule: AccountRule) {
-    console.log(rule)
+    dispatch(DataSlice.actions.addRule({ rule }))
     setAddRuleFromData(null)
   }
   // #endregion
