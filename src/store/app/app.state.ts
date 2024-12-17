@@ -24,4 +24,6 @@ export interface AppStoreState {
   filterRule: FilterRule
   filterCredit: FilterCredit
   filterSearch: string
+  filterAccount: string
+  filterFile: string
 }

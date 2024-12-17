@@ -2,6 +2,7 @@ import { OperatorKey } from './operators'
 
 export type AccountField = 
   | 'account'
+  | 'file'
   | 'date'
   | 'label1'
   | 'label2'
@@ -9,6 +10,7 @@ export type AccountField =
 
 export interface AccountData {
   account: string
+  file: string
   date: string
   label1: string
   label2: string
@@ -16,13 +18,16 @@ export interface AccountData {
 }
 export interface AccountDataExt {
   account: string
+  file: string
   date: string
   label1: string
   label2: string
   value: number
+  rules: AccountRule[]
   categories: AccountCategory[]
 }
 
+// #region Rules
 interface RuleCondition {
   field: AccountField
   operator: OperatorKey
@@ -38,13 +43,29 @@ interface RuleNot {
   not: Rule
 }
 export type Rule = RuleCondition | RuleAnd | RuleOr | RuleNot 
+export interface AccountMetaData {
+  rules: AccountRule[]
+  categories: Category[]
+}
 export type AccountRule = {
   rule: Rule
-  category: AccountCategory
+  category: string
 }
+// #endregion
 
+// #region Categories
+export interface Category {
+  credit: boolean
+  name: string
+  color: string
+  bgcolor: string
+  categories: string[]
+}
 export interface AccountCategory {
   credit: boolean
-  category1: string
-  category2: string
+  name: string
+  color: string
+  bgcolor: string
+  category: string
 }
+// #endregion

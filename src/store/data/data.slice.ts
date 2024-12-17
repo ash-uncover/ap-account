@@ -12,7 +12,7 @@ import {
 } from './data.state'
 import { 
   AccountData, 
-  AccountCategory, 
+  AccountMetaData, 
   AccountRule
 } from '../../model/data'
 
@@ -23,12 +23,9 @@ const initialState: DataStoreState = {
   dataLoadError: '',
 
   rules: [],
-  rulesLoadStatus: DataStates.NEVER,
-  rulesLoadError: '',
-
-  labels: [],
-  labelsLoadStatus: DataStates.NEVER,
-  labelsLoadError: '',
+  categories: [],
+  metaDataLoadStatus: DataStates.NEVER,
+  metaDataLoadError: '',
 }
 // #endregion
 
@@ -56,25 +53,26 @@ const getDataFailure: CaseReducer<DataStoreState, PayloadAction<PayloadGetDataFa
 }
 // #endregion
 
-// #region > Rules
-const getRulesRequest: CaseReducer<DataStoreState, PayloadAction<void>> = (state) => {
-  state.rulesLoadStatus = state.rulesLoadStatus === DataStates.NEVER ? DataStates.FETCHING_FIRST : DataStates.FETCHING
-  state.rulesLoadError = null
+// #region > Meta Data
+const getMetaDataRequest: CaseReducer<DataStoreState, PayloadAction<void>> = (state) => {
+  state.metaDataLoadStatus = state.metaDataLoadStatus === DataStates.NEVER ? DataStates.FETCHING_FIRST : DataStates.FETCHING
+  state.metaDataLoadError = null
 }
-interface PayloadGetRulesSuccess {
-  rules: AccountRule[]
+interface PayloadGetMetaDataSuccess {
+  meta: AccountMetaData
 }
-const getRulesSuccess: CaseReducer<DataStoreState, PayloadAction<PayloadGetRulesSuccess>> = (state, action) => {
-  state.rules = action.payload.rules
-  state.rulesLoadStatus = DataStates.SUCCESS
-  state.rulesLoadError = null
+const getMetaDataSuccess: CaseReducer<DataStoreState, PayloadAction<PayloadGetMetaDataSuccess>> = (state, action) => {
+  state.rules = action.payload.meta.rules
+  state.categories = action.payload.meta.categories
+  state.metaDataLoadStatus = DataStates.SUCCESS
+  state.metaDataLoadError = null
 }
-interface PayloadGetRulesFailure {
+interface PayloadGetMetaDataFailure {
   error: string
 }
-const getRulesFailure: CaseReducer<DataStoreState, PayloadAction<PayloadGetRulesFailure>> = (state, action) => {
-  state.rulesLoadStatus = DataStates.FAILURE
-  state.rulesLoadError = action.payload.error
+const getMetaDataFailure: CaseReducer<DataStoreState, PayloadAction<PayloadGetMetaDataFailure>> = (state, action) => {
+  state.metaDataLoadStatus = DataStates.FAILURE
+  state.metaDataLoadError = action.payload.error
 }
 interface PayloadAddRule {
   rule: AccountRule
@@ -87,32 +85,10 @@ const addRule: CaseReducer<DataStoreState, PayloadAction<PayloadAddRule>> = (sta
 }
 // #endregion
 
-// #region > Labels
-const getLabelsRequest: CaseReducer<DataStoreState, PayloadAction<void>> = (state) => {
-  state.labelsLoadStatus = state.labelsLoadStatus === DataStates.NEVER ? DataStates.FETCHING_FIRST : DataStates.FETCHING
-  state.labelsLoadError = null
-}
-interface PayloadGetLabelsSuccess {
-  labels: AccountCategory[]
-}
-const getLabelsSuccess: CaseReducer<DataStoreState, PayloadAction<PayloadGetLabelsSuccess>> = (state, action) => {
-  state.labels = action.payload.labels
-  state.labelsLoadStatus = DataStates.SUCCESS
-  state.labelsLoadError = null
-}
-interface PayloadGetLabelsFailure {
-  error: string
-}
-const getLabelsFailure: CaseReducer<DataStoreState, PayloadAction<PayloadGetLabelsFailure>> = (state, action) => {
-  state.labelsLoadStatus = DataStates.FAILURE
-  state.labelsLoadError = action.payload.error
-}
-// #endregion
-
 // #endregion
 
 // #region Slice
-const DataSlice = createSlice({
+export const DataSlice = createSlice({
   name: 'data',
   initialState,
 
@@ -121,16 +97,10 @@ const DataSlice = createSlice({
     getDataSuccess,
     getDataFailure,
 
-    getRulesRequest,
-    getRulesSuccess,
-    getRulesFailure,
+    getMetaDataRequest,
+    getMetaDataSuccess,
+    getMetaDataFailure,
     addRule,
-
-    getLabelsRequest,
-    getLabelsSuccess,
-    getLabelsFailure,
   },
 })
 // #endregion
-
-export default DataSlice

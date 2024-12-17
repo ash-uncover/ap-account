@@ -1,8 +1,10 @@
 import React from 'react'
 //
-import { AccountFilterSearch } from './AccountFilterSearch'
+import { AccountFilterAccount } from './AccountFilterAccount'
 import { AccountFilterCredit } from './AccountFilterCredit'
+import { AccountFilterFile } from './AccountFilterFile'
 import { AccountFilterRule } from './AccountFilterRule'
+import { AccountFilterSearch } from './AccountFilterSearch'
 // CSS
 import './AccountFilters.css'
 
@@ -11,10 +13,14 @@ export const AccountFilters = () => {
   return (
     <div className='account-filters'>
       <div>FILTERS</div>
-      
-      <AccountFilterRule />
-      <AccountFilterCredit />
-      <AccountFilterSearch />
+      <div className='account-filters-controls'>
+        <AccountFilterSearch />
+        <AccountFilterAccount />
+        <AccountFilterFile />
+        <div style={{margin: 'auto'}} />
+        <AccountFilterRule />
+        <AccountFilterCredit />
+      </div>
     </div>
   )
   // #endregion

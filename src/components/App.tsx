@@ -8,10 +8,10 @@ import { AccountRules } from './rules/AccountRules'
 import { DialogCreateRule } from './rules/DialogCreateRule'
 import { AccountTable } from './table/AccountTable'
 import { AccountDataExt, AccountRule } from '../model/data'
-import { loadData, loadLabels, loadRules } from '../service/DataService'
+import { loadData, loadMetaData } from '../service/DataService'
 import AppSlice from '../store/app/app.slice'
 import { DataSelectors } from '../store/data/data.selectors'
-import DataSlice from '../store/data/data.slice'
+import { DataSlice } from '../store/data/data.slice'
 import { enrichData, extractLabels } from '../utils/RuleMatcher'
 // CSS
 import './App.css'
@@ -25,36 +25,33 @@ export const App = () => {
   const dataLoadStatus = useSelector(DataSelectors.dataLoadStatus)
   const dataLoadError = useSelector(DataSelectors.dataLoadError)
 
-  const rulesLoadStatus = useSelector(DataSelectors.rulesLoadStatus)
-  const rulesLoadError = useSelector(DataSelectors.rulesLoadError)
-
-  const labelsLoadStatus = useSelector(DataSelectors.labelsLoadStatus)
-  const labelsLoadError = useSelector(DataSelectors.labelsLoadError)
+  const metaDataLoadStatus = useSelector(DataSelectors.metaDataLoadStatus)
+  const metaDataLoadError = useSelector(DataSelectors.metaDataLoadError)
 
   const data = useSelector(DataSelectors.data)
   const rules = useSelector(DataSelectors.rules)
+  const categories = useSelector(DataSelectors.categories)
 
   useEffect(() => {
-    const newStatus = DataStatesUtils.mergeDataStates([dataLoadStatus, rulesLoadStatus, labelsLoadStatus])
+    const newStatus = DataStatesUtils.mergeDataStates([dataLoadStatus, metaDataLoadStatus])
     setStatus(newStatus)
-  }, [dataLoadStatus, rulesLoadStatus, labelsLoadStatus])
-  
+  }, [dataLoadStatus, metaDataLoadStatus])
+
   useEffect(() => {
     if (status === DataStates.SUCCESS) {
-      const dataExt = enrichData(data, rules).sort(
+      const dataExt = enrichData(data, rules, categories).sort(
         (data1, data2) => new Date(data2.date).getTime() - new Date(data1.date).getTime()
       )
       dispatch(AppSlice.actions.setData({ data: dataExt }))
 
-      const labels = extractLabels(rules)
+      const labels = extractLabels(categories)
       dispatch(AppSlice.actions.setLabels({ labels }))
     }
   }, [status, data, rules])
 
   useEffect(() => {
     loadData(dispatch)
-    loadRules(dispatch)
-    loadLabels(dispatch)
+    loadMetaData(dispatch)
   }, [])
   // #endregion
 
@@ -73,9 +70,9 @@ export const App = () => {
 
   // #region Rendering
   switch (status) {
-    case DataStates.NEVER: 
-    case DataStates.FETCHING: 
-    case DataStates.FETCHING_FIRST: 
+    case DataStates.NEVER:
+    case DataStates.FETCHING:
+    case DataStates.FETCHING_FIRST:
     case DataStates.OUTDATED: {
       return (
         <div className='app'>
@@ -88,8 +85,7 @@ export const App = () => {
         <div className='app'>
           error
           <div>data: {dataLoadError}</div>
-          <div>rules: {rulesLoadError}</div>
-          <div>labels: {labelsLoadError}</div>
+          <div>meta: {metaDataLoadError}</div>
         </div>
       )
     }
@@ -106,7 +102,7 @@ export const App = () => {
                   <AccountFilters />
                 </Section>
                 <Section className='app-content-table'>
-                  <AccountTable 
+                  <AccountTable
                     onAddRule={handleAddRuleFromData}
                   />
                 </Section>
@@ -117,12 +113,12 @@ export const App = () => {
             </main>
           </div>
           {addRuleFromData ?
-            <DialogCreateRule 
+            <DialogCreateRule
               data={addRuleFromData}
               onCancel={handleDialogCreateRuleFromDataCancel}
               onCreate={handleDialogCreateRuleFromDataCreate}
             />
-          : null}
+            : null}
         </>
       )
     }

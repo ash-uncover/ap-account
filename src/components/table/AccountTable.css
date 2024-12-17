@@ -10,6 +10,11 @@
     line-height: 2rem;
     border-bottom: 1px solid grey;
   }
+  & th {
+    position: sticky;
+    top: 0;
+    background: #CCC;
+  }
 
   & .account-table-row {
     user-select: none;
@@ -32,6 +37,12 @@
     padding: 5px;
     vertical-align: text-top;
 
+    &.account-table-row-cell--flex {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
     &.account-table-row-cell--bold {
       &>div:first-child {
         font-weight: bold;
@@ -41,6 +52,13 @@
 
   tfoot tr {
     position: sticky;
-    background: red
+    bottom: 0;
+    background: #CCC;
+    height: 2.5rem;
+    font-weight: bold;
+    & .account-table-row-cell {
+      padding: 5px;
+      vertical-align: middle;
+    }
   }
 }

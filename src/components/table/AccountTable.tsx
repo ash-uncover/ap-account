@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 //
-import AppSelectors from '../../store/app/app.selectors'
+import { AppSelectors } from '../../store/app/app.selectors'
 import { AccountDataExt } from '../../model/data'
 import { addClass, removeClass, toggleClass } from '../../utils/ClassHelper'
 import { Tag } from '../common/Tag'
@@ -20,6 +20,8 @@ export const AccountTable = ({
   const filterRule = useSelector(AppSelectors.filterRule)
   const filterCredit = useSelector(AppSelectors.filterCredit)
   const filterSearch = useSelector(AppSelectors.filterSearch)
+  const filterAccount = useSelector(AppSelectors.filterAccount)
+  const filterFile = useSelector(AppSelectors.filterFile)
 
   useEffect(() => {
     let newData = data
@@ -27,7 +29,7 @@ export const AccountTable = ({
       newData = newData.filter((data) => data.categories.length === 0)
     }
     if (filterRule === 'MORE') {
-      newData = newData.filter((data) => data.categories.length > 2)
+      newData = newData.filter((data) => data.categories.length > 1)
     }
     if (filterCredit === 'CREDIT') {
       newData = newData.filter((data) => data.value > 0)
@@ -40,8 +42,19 @@ export const AccountTable = ({
         (data) => data.label1.toUpperCase().includes(filterSearch.toUpperCase()) || data.label2.toUpperCase().includes(filterSearch.toUpperCase())
       )
     }
+    if (filterAccount) {
+      newData = newData.filter(
+        (data) => data.account === filterAccount
+      )
+    }
+    console.log(filterFile)
+    if (filterFile) {
+      newData = newData.filter(
+        (data) => data.file === filterFile
+      )
+    }
     setTableData(newData)
-  }, [data, filterRule, filterCredit, filterSearch])
+  }, [data, filterRule, filterCredit, filterSearch, filterAccount, filterFile])
   // #endregion
 
   // #region Rendering
@@ -53,8 +66,7 @@ export const AccountTable = ({
           <th className='account-table-row-cell' scope='col'>Date</th>
           <th className='account-table-row-cell' scope='col'>Labels</th>
           <th className='account-table-row-cell' scope='col'>Value</th>
-          <th className='account-table-row-cell' scope='col'>Category 1</th>
-          <th className='account-table-row-cell' scope='col'>Category 2</th>
+          <th className='account-table-row-cell' scope='col'>Category</th>
           <th className='account-table-row-cell' scope='col'></th>
         </tr>
       </thead>
@@ -76,6 +88,16 @@ export const AccountTable = ({
           </AccountTableRowCell>
           <AccountTableRowCell>
             {tableData.reduce((acc, line) => acc + line.value, 0)}
+          </AccountTableRowCell>
+          <AccountTableRowCell>
+            <span style={{ color: 'red' }}>
+              -{tableData.reduce((acc, line) => line.value <= 0 ? acc + line.value : acc, 0)}
+            </span>
+          </AccountTableRowCell>
+          <AccountTableRowCell>
+            <span style={{ color: 'green' }}>
+              +{tableData.reduce((acc, line) => line.value > 0 ? acc + line.value : acc, 0)}
+            </span>
           </AccountTableRowCell>
         </tr>
       </tfoot>
@@ -132,15 +154,24 @@ const AccountTableRow = ({
       <AccountTableRowCell>
         {data.value}
       </AccountTableRowCell>
-      <AccountTableRowCell>
-      {data.categories.length ? 
-          <Tag>{data.categories[0].category1}</Tag> 
-        : ''}
-      </AccountTableRowCell>
-      <AccountTableRowCell>
-        {data.categories.length && data.categories[0].category2 ? 
-          <Tag>{data.categories[0].category2}</Tag> 
-        : ''}
+      <AccountTableRowCell className='account-table-row-cell--flex'>
+        {data.categories.map(
+          (cat) => {
+            let name = cat.name
+            if (cat.category) {
+              name += `/${cat.category}`
+            }
+            return (
+              <Tag 
+                key={name}
+                color={cat.color}
+                background={cat.bgcolor}
+              >
+                {name}
+              </Tag>
+            )
+          }
+        )}
       </AccountTableRowCell>
       <AccountTableRowCell>
         <button onClick={handleButtonAddRuleClick}>
@@ -157,7 +188,7 @@ interface AccountTableRowCellProperties extends PropsWithChildren {
   bold?: boolean
   colSpan?: number
 }
-const AccountTableRowCell = ({ 
+const AccountTableRowCell = ({
   className,
   bold,
   colSpan,
@@ -166,17 +197,14 @@ const AccountTableRowCell = ({
   // #region Hooks
   const [classes, setClasses] = useState<string[]>(['account-table-row-cell'])
   useEffect(() => {
-    setClasses((classes) => addClass(classes, className))
-  }, [className])
-  useEffect(() => {
     setClasses((classes) => toggleClass(classes, 'account-table-row-cell--bold', bold))
   }, [bold])
   // #endregion
 
   // #region Rendering
   return (
-    <td 
-      className={classes.join(' ')}
+    <td
+      className={[...classes, className].join(' ')}
       colSpan={colSpan}
     >
       {children}

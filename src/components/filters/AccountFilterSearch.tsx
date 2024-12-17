@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 //
-import AppSelectors from '../../store/app/app.selectors'
+import { AppSelectors } from '../../store/app/app.selectors'
 import AppSlice from '../../store/app/app.slice'
 // CSS
 

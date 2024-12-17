@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import AppSelectors from '../../store/app/app.selectors'
+import { AppSelectors } from '../../store/app/app.selectors'
 import AppSlice from '../../store/app/app.slice'
 import { FilterRule } from '../../store/app/app.state'
 import { SegmentedButton } from '../common/SegmentedButton'
@@ -41,14 +41,12 @@ export const AccountFilterRule = () => {
         >
           {`NONE (${data.filter(d => d.categories.length === 0).length})`}
         </SegmentedButtonItem>
-        {data.filter(d => d.categories.length > 2).length ?
-          <SegmentedButtonItem
-            className='account-filters--filter-rule-item'
-            itemKey='MORE'
-          >
-            {`2+ (${data.filter(d => d.categories.length > 2).length})`}
-          </SegmentedButtonItem>
-          : null}
+        <SegmentedButtonItem
+          className='account-filters--filter-rule-item'
+          itemKey='MORE'
+        >
+          {`2+ (${data.filter(d => d.categories.length > 1).length})`}
+        </SegmentedButtonItem>
       </SegmentedButton>
     </fieldset>
   )

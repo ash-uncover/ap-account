@@ -1,5 +1,9 @@
 .account-filters {
-  .segmented-button-item--selected {
+  & .account-filters-controls {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  & .segmented-button-item--selected {
     background: #5488AA
   }
 }

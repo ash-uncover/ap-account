@@ -1,12 +1,18 @@
 .tag {
-  line-height: 2rem;
+  height: 1rem;
+  line-height: 1rem;
   padding: 0.25rem 0.5rem;
-  font-size: 0.9rem;
-  font-weight: bold;
+  font-size: 0.7rem;
+  
   border-radius: 0.25rem;
   white-space: nowrap;
+  &.tag--interactive {
+    user-select: none;
+    cursor: pointer;
+  }
 
   &.tag-color-0 {
-    background: #CCC;
+    background: #555;
+    color: #EEE;
   }
 }

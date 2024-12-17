@@ -19,6 +19,8 @@ const initialState: AppStoreState = {
   filterRule: 'ALL',
   filterCredit: 'ALL',
   filterSearch: '',
+  filterAccount: '',
+  filterFile: '',
 }
 // #endregion
 
@@ -57,6 +59,21 @@ export interface PayloadSetFilterSearch {
 const setFilterSearch: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterSearch>> = (state, action) => {
   state.filterSearch = action.payload.filter
 }
+
+export interface PayloadSetFilterAccount {
+  filter: string
+}
+const setFilterAccount: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterAccount>> = (state, action) => {
+  state.filterAccount = action.payload.filter
+}
+
+export interface PayloadSetFilterFile {
+  filter: string
+}
+const setFilterFile: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterFile>> = (state, action) => {
+  state.filterFile = action.payload.filter
+}
+
 // #endregion
 
 // #region Slice
@@ -71,6 +88,8 @@ const AppSlice = createSlice({
     setFilterRule,
     setFilterCredit,
     setFilterSearch,
+    setFilterAccount,
+    setFilterFile,
   },
 })
 // #endregion

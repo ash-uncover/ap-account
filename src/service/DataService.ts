@@ -1,5 +1,5 @@
-import { AccountCategory, AccountRule } from '../model/data'
-import DataSlice from '../store/data/data.slice'
+import { AccountMetaData } from '../model/data'
+import { DataSlice } from '../store/data/data.slice'
 import { read } from '../utils/CSVReader'
 
 export const loadData = async (dispatch: any) => {
@@ -15,6 +15,7 @@ export const loadData = async (dispatch: any) => {
         (line) => {
           const [
             account,
+            file,
             date,
             label1,
             label2,
@@ -22,6 +23,7 @@ export const loadData = async (dispatch: any) => {
           ] = line
           const result = {
             account,
+            file,
             date,
             label1,
             label2,
@@ -37,30 +39,16 @@ export const loadData = async (dispatch: any) => {
     })
 }
 
-export const loadRules = async (dispatch: any) => {
-  dispatch(DataSlice.actions.getRulesRequest())
+export const loadMetaData = async (dispatch: any) => {
+  dispatch(DataSlice.actions.getMetaDataRequest())
   return fetch('/rules.json')
     .then((result) => {
       return result.json()
     })
-    .then((rules: AccountRule[]) => {
-      dispatch(DataSlice.actions.getRulesSuccess({ rules }))
+    .then((meta: AccountMetaData) => {
+      dispatch(DataSlice.actions.getMetaDataSuccess({ meta }))
     })
     .catch((error) => {
-      dispatch(DataSlice.actions.getRulesFailure({ error }))
-    })
-}
-
-export const loadLabels = async (dispatch: any) => {
-  dispatch(DataSlice.actions.getLabelsRequest())
-  return fetch('/labels.json')
-    .then((result) => {
-      return result.json()
-    })
-    .then((labels: AccountCategory[]) => {
-      dispatch(DataSlice.actions.getLabelsSuccess({ labels }))
-    })
-    .catch((error) => {
-      dispatch(DataSlice.actions.getLabelsFailure({ error }))
+      dispatch(DataSlice.actions.getMetaDataFailure({ error }))
     })
 }

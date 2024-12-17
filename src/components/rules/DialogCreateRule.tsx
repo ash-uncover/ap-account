@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 //
 import { Dialog } from '../common/Dialog'
-import { AccountCategory, AccountDataExt, AccountRule, Rule } from '../../model/data'
-import { SelectRuleCategory1 } from './SelectRuleCategory1'
-import { SelectRuleCategory2 } from './SelectRuleCategory2'
+import { AccountDataExt, AccountRule, Rule } from '../../model/data'
+import { SelectRuleCategory } from './SelectRuleCategory'
 import { RuleBuilderAccount } from './account/RuleBuilderAccount'
 import { RuleBuilderLabel } from './label/RuleBuilderLabel'
 import { OPERATOR_KEYS } from '../../model/operators'
@@ -30,16 +29,14 @@ export const DialogCreateRule = ({
   const [ruleLabel1, setRuleLabel1] = useState(null)
   const [ruleLabel2, setRuleLabel2] = useState(null)
 
-  const [credit, setCredit] = useState(false)
-  const [category1, setCategory1] = useState('')
-  const [category2, setCategory2] = useState('')
+  const [category, setCategory] = useState(null)
 
   const [ruleValid, setRuleValid] = useState(false)
 
   useEffect(() => {
-    const valid = Boolean((ruleExact || (ruleAccount || ruleLabel1 || ruleLabel2)) && category1)
+    const valid = Boolean((ruleExact || (ruleAccount || ruleLabel1 || ruleLabel2)) && category)
     setRuleValid(valid)
-  }, [ruleExact, ruleAccount, ruleLabel1, ruleLabel2, category1])
+  }, [ruleExact, ruleAccount, ruleLabel1, ruleLabel2, category])
   // #endregion
 
   // #region Events
@@ -55,25 +52,14 @@ export const DialogCreateRule = ({
   function handleRuleLabel2Change(rule: Rule) {
     setRuleLabel2(rule)
   }
-  function handleRuleCategory1Change(cat1: string) {
-    setCategory1(cat1)
-  }
-  function handleRuleCategory2Change(cat2: string) {
-    setCategory2(cat2)
-  }
-  function handleRuleCreditChange(event: any) {
-    setCredit(event.target.checked)
+  function handleRuleCategoryChange(cat: string) {
+    setCategory(cat)
   }
   function handleCancelClick() {
     onCancel()
   }
   function handleCreateClick() {
     let rule: Rule
-    const category: AccountCategory = {
-      credit,
-      category1,
-      category2
-    }
     if (ruleExact) {
       rule = {
         and: [
@@ -140,25 +126,14 @@ export const DialogCreateRule = ({
         />
       </fieldset>
 
-      <fieldset>
-        <legend>Categories</legend>
-        <div>
-          <span>Credit</span>
-          <input
-            type='checkbox'
-            checked={credit}
-            onChange={handleRuleCreditChange}
-          />
-        </div>
-        <SelectRuleCategory1
-          category={category1}
-          onChange={handleRuleCategory1Change}
-        />
-        <SelectRuleCategory2
-          category={category2}
-          onChange={handleRuleCategory2Change}
+      <fieldset className={[...classes, className].join(' ')}>
+        <legend>Category</legend>
+        <SelectRuleCategory
+          category={category}
+          onChange={handleRuleCategoryChange}
         />
       </fieldset>
+
       <div>
         <button
           onClick={handleCancelClick}
