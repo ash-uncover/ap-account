@@ -7,6 +7,7 @@ import { AccountFilterRule } from './AccountFilterRule'
 import { AccountFilterSearch } from './AccountFilterSearch'
 // CSS
 import './AccountFilters.css'
+import { AccountFilterCategory } from './AccountFilterCategory'
 
 export const AccountFilters = () => {
   // #region Rendering
@@ -18,6 +19,7 @@ export const AccountFilters = () => {
         <AccountFilterAccount />
         <AccountFilterFile />
         <div style={{margin: 'auto'}} />
+        <AccountFilterCategory />
         <AccountFilterRule />
         <AccountFilterCredit />
       </div>

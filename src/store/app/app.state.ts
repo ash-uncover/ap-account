@@ -26,4 +26,5 @@ export interface AppStoreState {
   filterSearch: string
   filterAccount: string
   filterFile: string
+  filterCategory: string
 }

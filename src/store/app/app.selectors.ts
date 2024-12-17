@@ -9,6 +9,7 @@ export const filterCredit = (state: RootState) => base(state).filterCredit
 export const filterSearch = (state: RootState) => base(state).filterSearch
 export const filterAccount = (state: RootState) => base(state).filterAccount
 export const filterFile = (state: RootState) => base(state).filterFile
+export const filterCategory = (state: RootState) => base(state).filterCategory
 
 export const AppSelectors = {
   data,
@@ -18,4 +19,5 @@ export const AppSelectors = {
   filterSearch,
   filterAccount,
   filterFile,
+  filterCategory, 
 }

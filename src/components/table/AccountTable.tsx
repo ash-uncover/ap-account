@@ -22,6 +22,7 @@ export const AccountTable = ({
   const filterSearch = useSelector(AppSelectors.filterSearch)
   const filterAccount = useSelector(AppSelectors.filterAccount)
   const filterFile = useSelector(AppSelectors.filterFile)
+  const filterCategory = useSelector(AppSelectors.filterCategory)
 
   useEffect(() => {
     let newData = data
@@ -47,14 +48,23 @@ export const AccountTable = ({
         (data) => data.account === filterAccount
       )
     }
-    console.log(filterFile)
     if (filterFile) {
       newData = newData.filter(
         (data) => data.file === filterFile
       )
     }
+    if (filterCategory) {
+      console.log(filterCategory)
+      newData = newData.filter(
+        (data) => data.categories.some(
+          category => {
+            return `${category.name}${category.category ? `/${category.category}` : ''}` === filterCategory
+          }
+        )
+      )
+    }
     setTableData(newData)
-  }, [data, filterRule, filterCredit, filterSearch, filterAccount, filterFile])
+  }, [data, filterRule, filterCredit, filterSearch, filterAccount, filterFile, filterCategory])
   // #endregion
 
   // #region Rendering
@@ -84,7 +94,7 @@ export const AccountTable = ({
       <tfoot>
         <tr>
           <AccountTableRowCell colSpan={3}>
-            Total
+            Total ({tableData.length})
           </AccountTableRowCell>
           <AccountTableRowCell>
             {tableData.reduce((acc, line) => acc + line.value, 0)}

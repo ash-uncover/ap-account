@@ -21,6 +21,7 @@ const initialState: AppStoreState = {
   filterSearch: '',
   filterAccount: '',
   filterFile: '',
+  filterCategory: '',
 }
 // #endregion
 
@@ -74,10 +75,17 @@ const setFilterFile: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterFi
   state.filterFile = action.payload.filter
 }
 
+export interface PayloadSetFilterCategory {
+  filter: string
+}
+const setFilterCategory: CaseReducer<AppStoreState, PayloadAction<PayloadSetFilterCategory>> = (state, action) => {
+  state.filterCategory = action.payload.filter
+}
+
 // #endregion
 
 // #region Slice
-const AppSlice = createSlice({
+export const AppSlice = createSlice({
   name: 'app',
   initialState,
 
@@ -90,8 +98,7 @@ const AppSlice = createSlice({
     setFilterSearch,
     setFilterAccount,
     setFilterFile,
+    setFilterCategory,
   },
 })
 // #endregion
-
-export default AppSlice

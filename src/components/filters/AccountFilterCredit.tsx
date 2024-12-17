@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 //
 import { AppSelectors } from '../../store/app/app.selectors'
-import AppSlice from '../../store/app/app.slice'
+import { AppSlice}  from '../../store/app/app.slice'
 import { FilterCredit } from '../../store/app/app.state'
 import { SegmentedButton } from '../common/SegmentedButton'
 import { SegmentedButtonItem } from '../common/SegmentedButtonItem'

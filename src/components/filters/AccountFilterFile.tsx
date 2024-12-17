@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 //
 import { AppSelectors } from '../../store/app/app.selectors'
-import AppSlice from '../../store/app/app.slice'
+import { AppSlice}  from '../../store/app/app.slice'
 import { DataSelectors } from '../../store/data/data.selectors'
 // CSS
 
