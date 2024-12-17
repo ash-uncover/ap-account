@@ -8,23 +8,15 @@ export function mergeAccountRule(rules: AccountRule[]): AccountRule[] {
       if (cat) {
         const exist = acc.some(rule => {
           const [ruleName, ruleCat] = rule.category.split('/')
-          if (ruleName === name && ruleCat === cat) {
-            console.log('exclude ' + line.category, rule.category)
-            return true
-          }
-          return false
+          return ruleName === name && ruleCat === cat
         })
         if (!exist) {
           acc.push(line)
         }
       } else {
         const exist = acc.some(rule => {
-          const [ruleName, ruleCat] = rule.category.split('/')
-          if(ruleName === name) {
-            console.log('exclude ' + line.category, rule.category)
-            return true
-          }
-          return false
+          const [ruleName] = rule.category.split('/')
+          return ruleName === name
         })
         if (!exist) {
           acc.push(line)
