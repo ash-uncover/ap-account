@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DataState, DataStates, DataStatesUtils } from '@uncover/js-utils'
+import { DataState, DataStates, DataStatesUtils, DownloadUtils } from '@uncover/js-utils'
 //
 import { Section } from './common/Section'
 import { AccountFilters } from './filters/AccountFilters'
@@ -9,7 +9,8 @@ import { DialogCreateRule } from './rules/DialogCreateRule'
 import { AccountTable } from './table/AccountTable'
 import { AccountDataExt, AccountRule } from '../model/data'
 import { loadData, loadMetaData } from '../service/DataService'
-import { AppSlice}  from '../store/app/app.slice'
+import { AppSelectors } from '../store/app/app.selectors'
+import { AppSlice } from '../store/app/app.slice'
 import { DataSelectors } from '../store/data/data.selectors'
 import { DataSlice } from '../store/data/data.slice'
 import { enrichData, extractLabels } from '../utils/RuleMatcher'
@@ -66,6 +67,12 @@ export const App = () => {
     dispatch(DataSlice.actions.addRule({ rule }))
     setAddRuleFromData(null)
   }
+  function handleExportRulesClick() {
+    DownloadUtils.downloadJson('rules.json', {
+      categories,
+      rules
+    })
+  }
   // #endregion
 
   // #region Rendering
@@ -94,7 +101,10 @@ export const App = () => {
         <>
           <div className='app'>
             <header className='app-header'>
-              HEAD
+              <div style={{marginInlineEnd: 'auto '}}>
+                Accounts
+              </div>
+              <button onClick={handleExportRulesClick}>Export Rules</button>
             </header>
             <main className='app-main'>
               <div className='app-content'>

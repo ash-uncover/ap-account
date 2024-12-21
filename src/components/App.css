@@ -6,11 +6,15 @@
   background: #202834;
 
   & .app-header {
+    padding: 0 1rem;
     flex-grow: 0;
     flex-shrink: 0;
     height: 2.5rem;
     background: black;
     color: white;
+
+    display: flex;
+    align-items: center;
   }
 
   & .app-main {
