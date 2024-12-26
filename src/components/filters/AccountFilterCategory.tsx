@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppSelectors } from '../../store/app/app.selectors'
 import { AppSlice } from '../../store/app/app.slice'
 import { DataSelectors } from '../../store/data/data.selectors'
+import { SelectRuleCategory } from '../rules/category/SelectRuleCategory'
 // CSS
 
 export const AccountFilterCategory = () => {
@@ -14,7 +15,7 @@ export const AccountFilterCategory = () => {
 
   // #region Events
   function handleFilterCategoryChange(event: any) {
-    dispatch(AppSlice.actions.setFilterCategory({ filter: event.target.value }))
+    dispatch(AppSlice.actions.setFilterCategory({ filter: event }))
   }
   // #endregion
 
@@ -22,45 +23,11 @@ export const AccountFilterCategory = () => {
   return (
     <fieldset>
       <legend>Category</legend>
-      <select
-        name='category'
-        value={filterCategory}
+      <SelectRuleCategory
+        category={filterCategory}
         onChange={handleFilterCategoryChange}
-      >
-        <option
-          value=''
-        >
-          {'<all>'}
-        </option>
-        {categories.map(
-          (c) => <AccountFilterCategoryOptions key={c.name} category={c} />
-        )}
-      </select>
+      />
     </fieldset>
   )
   // #endregion
-}
-
-export const AccountFilterCategoryOptions = ({
-  category
-}) => {
-  return (
-    <>
-      <option
-        value={category.name}
-      >
-        {category.name}
-      </option>
-      {category.categories.map(
-        (c: string) => (
-          <option
-            key={`${category.name}/${c}`}
-            value={`${category.name}/${c}`}
-          >
-            {`${category.name}/${c}`}
-          </option>
-        )
-      )}
-    </>
-  )
 }

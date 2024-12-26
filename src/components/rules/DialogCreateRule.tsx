@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 //
 import { Dialog } from '../common/Dialog'
 import { AccountDataExt, AccountRule, Rule } from '../../model/data'
-import { SelectRuleCategory } from './SelectRuleCategory'
+import { SelectRuleCategory } from './category/SelectRuleCategory'
 import { RuleBuilderAccount } from './account/RuleBuilderAccount'
 import { RuleBuilderLabel } from './label/RuleBuilderLabel'
 import { OPERATOR_KEYS } from '../../model/operators'

@@ -4,7 +4,7 @@ import { DataState, DataStates, DataStatesUtils, DownloadUtils } from '@uncover/
 //
 import { Section } from './common/Section'
 import { AccountFilters } from './filters/AccountFilters'
-import { AccountRules } from './rules/AccountRules'
+import { AccountRules } from './rules/list/AccountRules'
 import { DialogCreateRule } from './rules/DialogCreateRule'
 import { AccountTable } from './table/AccountTable'
 import { AccountDataExt, AccountRule } from '../model/data'

@@ -1,6 +1,12 @@
 .account-rules {
+  & > .account-rules--list-top {
+    padding: 0;
+  }
   ul {
     padding: 0 0 0 1rem;
+    div {
+      margin-top: 0.5rem;
+    }
     li {
       list-style: none;
 
