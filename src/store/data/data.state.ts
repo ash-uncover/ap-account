@@ -2,7 +2,8 @@ import { DataState } from '@uncover/js-utils'
 import { 
   AccountData, 
   AccountRule,
-  Category
+  Category,
+  Check
 } from '../../model/data'
 
 export interface DataStoreState {
@@ -14,4 +15,8 @@ export interface DataStoreState {
   categories: Category[] 
   metaDataLoadStatus: DataState
   metaDataLoadError: string
+
+  checks: Check[] 
+  checksLoadStatus: DataState
+  checksLoadError: string
 }

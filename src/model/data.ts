@@ -47,6 +47,9 @@ export interface AccountMetaData {
   rules: AccountRule[]
   categories: Category[]
 }
+export interface AccountChecks {
+ checks: Check[]
+}
 export type AccountRule = {
   rule: Rule
   category: string
@@ -67,5 +70,13 @@ export interface AccountCategory {
   color: string
   bgcolor: string
   category: string
+}
+// #endregion
+
+// #region Checks
+export interface Check {
+  id: string
+  credit: number
+  debit: number
 }
 // #endregion

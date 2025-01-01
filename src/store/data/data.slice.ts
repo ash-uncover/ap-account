@@ -13,7 +13,8 @@ import {
 import { 
   AccountData, 
   AccountMetaData, 
-  AccountRule
+  AccountRule,
+  Check
 } from '../../model/data'
 
 // #region State
@@ -26,6 +27,10 @@ const initialState: DataStoreState = {
   categories: [],
   metaDataLoadStatus: DataStates.NEVER,
   metaDataLoadError: '',
+
+  checks: [],
+  checksLoadStatus: DataStates.NEVER,
+  checksLoadError: '',
 }
 // #endregion
 
@@ -85,6 +90,28 @@ const addRule: CaseReducer<DataStoreState, PayloadAction<PayloadAddRule>> = (sta
 }
 // #endregion
 
+// #region > Checks
+const getChecksRequest: CaseReducer<DataStoreState, PayloadAction<void>> = (state) => {
+  state.checksLoadStatus = state.checksLoadStatus === DataStates.NEVER ? DataStates.FETCHING_FIRST : DataStates.FETCHING
+  state.checksLoadError = null
+}
+interface PayloadGetChecksSuccess {
+  checks: Check[]
+}
+const getChecksSuccess: CaseReducer<DataStoreState, PayloadAction<PayloadGetChecksSuccess>> = (state, action) => {
+  state.checks = action.payload.checks
+  state.checksLoadStatus = DataStates.SUCCESS
+  state.checksLoadError = null
+}
+interface PayloadGetChecksFailure {
+  error: string
+}
+const getChecksFailure: CaseReducer<DataStoreState, PayloadAction<PayloadGetChecksFailure>> = (state, action) => {
+  state.checksLoadStatus = DataStates.FAILURE
+  state.checksLoadError = action.payload.error
+}
+// #endregion
+
 // #endregion
 
 // #region Slice
@@ -101,6 +128,10 @@ export const DataSlice = createSlice({
     getMetaDataSuccess,
     getMetaDataFailure,
     addRule,
+
+    getChecksRequest,
+    getChecksSuccess,
+    getChecksFailure,
   },
 })
 // #endregion

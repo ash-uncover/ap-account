@@ -1,4 +1,4 @@
-import { AccountMetaData } from '../model/data'
+import { AccountChecks, AccountMetaData } from '../model/data'
 import { DataSlice } from '../store/data/data.slice'
 import { read } from '../utils/CSVReader'
 
@@ -50,5 +50,19 @@ export const loadMetaData = async (dispatch: any) => {
     })
     .catch((error) => {
       dispatch(DataSlice.actions.getMetaDataFailure({ error }))
+    })
+}
+
+export const loadChecks = async (dispatch: any) => {
+  dispatch(DataSlice.actions.getChecksRequest())
+  return fetch('/checks.json')
+    .then((result) => {
+      return result.json()
+    })
+    .then((data: AccountChecks) => {
+      dispatch(DataSlice.actions.getChecksSuccess(data))
+    })
+    .catch((error) => {
+      dispatch(DataSlice.actions.getChecksFailure({ error }))
     })
 }

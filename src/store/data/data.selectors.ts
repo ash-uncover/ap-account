@@ -11,6 +11,10 @@ export const categories = (state: RootState) => base(state).categories
 export const metaDataLoadStatus = (state: RootState) => base(state).metaDataLoadStatus
 export const metaDataLoadError = (state: RootState) => base(state).metaDataLoadError
 
+export const checks = (state: RootState) => base(state).checks
+export const checksLoadStatus = (state: RootState) => base(state).checksLoadStatus
+export const checksLoadError = (state: RootState) => base(state).checksLoadError
+
 export const DataSelectors = {
   data,
   dataLoadStatus,
@@ -20,4 +24,8 @@ export const DataSelectors = {
   categories,
   metaDataLoadStatus,
   metaDataLoadError,
+
+  checks,
+  checksLoadStatus,
+  checksLoadError,
 }

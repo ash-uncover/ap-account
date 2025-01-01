@@ -8,7 +8,7 @@ import { AccountRules } from './rules/list/AccountRules'
 import { DialogCreateRule } from './rules/DialogCreateRule'
 import { AccountTable } from './table/AccountTable'
 import { AccountDataExt, AccountRule } from '../model/data'
-import { loadData, loadMetaData } from '../service/DataService'
+import { loadChecks, loadData, loadMetaData } from '../service/DataService'
 import { AppSelectors } from '../store/app/app.selectors'
 import { AppSlice } from '../store/app/app.slice'
 import { DataSelectors } from '../store/data/data.selectors'
@@ -16,6 +16,7 @@ import { DataSlice } from '../store/data/data.slice'
 import { enrichData, extractLabels } from '../utils/RuleMatcher'
 // CSS
 import './App.css'
+import { AccountChecks } from './checks/AccountChecks'
 
 export const App = () => {
   // #region Hooks
@@ -29,14 +30,17 @@ export const App = () => {
   const metaDataLoadStatus = useSelector(DataSelectors.metaDataLoadStatus)
   const metaDataLoadError = useSelector(DataSelectors.metaDataLoadError)
 
+  const checksLoadStatus = useSelector(DataSelectors.checksLoadStatus)
+  const checksLoadError = useSelector(DataSelectors.checksLoadError)
+
   const data = useSelector(DataSelectors.data)
   const rules = useSelector(DataSelectors.rules)
   const categories = useSelector(DataSelectors.categories)
 
   useEffect(() => {
-    const newStatus = DataStatesUtils.mergeDataStates([dataLoadStatus, metaDataLoadStatus])
+    const newStatus = DataStatesUtils.mergeDataStates([dataLoadStatus, metaDataLoadStatus, checksLoadStatus])
     setStatus(newStatus)
-  }, [dataLoadStatus, metaDataLoadStatus])
+  }, [dataLoadStatus, metaDataLoadStatus, checksLoadStatus])
 
   useEffect(() => {
     if (status === DataStates.SUCCESS) {
@@ -53,6 +57,7 @@ export const App = () => {
   useEffect(() => {
     loadData(dispatch)
     loadMetaData(dispatch)
+    loadChecks(dispatch)
   }, [])
   // #endregion
 
@@ -93,6 +98,7 @@ export const App = () => {
           error
           <div>data: {dataLoadError}</div>
           <div>meta: {metaDataLoadError}</div>
+          <div>checks: {checksLoadError}</div>
         </div>
       )
     }
@@ -107,6 +113,9 @@ export const App = () => {
               <button onClick={handleExportRulesClick}>Export Rules</button>
             </header>
             <main className='app-main'>
+              <Section className='app-side'>
+                <AccountChecks />
+              </Section>
               <div className='app-content'>
                 <Section className='app-content-filters'>
                   <AccountFilters />

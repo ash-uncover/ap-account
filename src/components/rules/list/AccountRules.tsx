@@ -1,12 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 //
-import { Category } from '../../../model/data'
 import { DataSelectors } from '../../../store/data/data.selectors'
+import { ListRules } from './ListRules'
 // CSS
 import './AccountRules.css'
-import { Tag } from '../../common/Tag'
-import { ListRules } from './ListRules'
 
 export const AccountRules = () => {
   // #region Hooks
